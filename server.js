@@ -3,6 +3,7 @@ import {calculateInfo} from './readability-example.js'
 import cors from 'cors'
 import express from "express"
 import {calculateDirectoryList} from './files.js'
+import {fetch_josh_calendar} from './ical.js'
 
 let app = express()
 app.use(cors())
@@ -13,7 +14,7 @@ app.set("json spaces", "  ")
 app.get('/',(req,res)=>{
     res.json({
         status:'success',
-        services:['/readability','/files']
+        services:['/readability','/files','/calendar/josh']
     })
 })
 app.get("/readability",(req,res)=>{
@@ -25,6 +26,10 @@ app.get("/readability",(req,res)=>{
 app.get('/files',(req,res) => {
     console.log("files request")
     calculateDirectoryList(FILES_DIR).then(files=>res.json(files))
+})
+app.get('/calendar/josh',(req,res)=>{
+    console.log("fetching the calendar")
+    fetch_josh_calendar().then(cal => res.json(cal))
 })
 app.listen(PORT,()=>{
     console.log(`listening on port ${PORT}`)
