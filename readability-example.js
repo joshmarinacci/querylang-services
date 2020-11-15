@@ -1,28 +1,12 @@
-const {Readability} = require('@mozilla/readability')
-const fetch = require('node-fetch');
-const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
 
-const cors = require('cors')
-const express = require('express')
-
-let app = express()
-app.use(cors())
-let PORT = 30011
+import {Readability} from '@mozilla/readability'
+import fetch  from 'node-fetch'
+import {JSDOM} from "jsdom"
 
 
-app.set("json spaces", "  ")
-app.get("/",(req,res)=>{
-    console.log("request for",req.query.url)
-    calculateInfo(req.query.url)
-        .then(summary => res.json({success:true, summary, url: req.query.url}))
-        .catch(e => res.json({success:false}))
-})
-app.listen(PORT,()=>{
-    console.log(`listening on port ${PORT}`)
-})
 
-function calculateInfo(url) {x
+
+export function calculateInfo(url) {
     return fetch(url)
         .then(res => res.text())
         .then(body => {
