@@ -6,7 +6,7 @@ import {JSDOM} from "jsdom"
 
 
 
-export function calculateInfo(url) {
+export function calculate_readability(url) {
     return fetch(url)
         .then(res => res.text())
         .then(body => {

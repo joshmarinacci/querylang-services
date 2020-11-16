@@ -11,8 +11,8 @@ function skip_files(f) {
     return true
 }
 
-export async function calculateDirectoryList(FILES_DIR) {
-    console.log("files dir", FILES_DIR)
+export async function calculate_dir_list(FILES_DIR) {
+    console.log("listing the files in directory", FILES_DIR)
     try {
 
         let acc = await fs.promises.access(FILES_DIR)
