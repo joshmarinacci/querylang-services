@@ -3,6 +3,7 @@ import path from 'path'
 
 function lookup_mimetype(info) {
     if(info.ext === '.jpg') return "image/jpeg"
+    if(info.ext === '.txt') return "text/plain"
     return "application/octet-stream"
 }
 
