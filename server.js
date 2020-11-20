@@ -2,7 +2,7 @@ import {calculate_readability} from './readability-example.js'
 
 import cors from 'cors'
 import express from "express"
-import {calculate_dir_list} from './files.js'
+import {calculate_dir_list, serve_file} from './files.js'
 import {fetch_josh_calendar} from './ical.js'
 import {proxy_url} from "./proxy.js"
 
@@ -24,7 +24,8 @@ app.get("/readability",(req,res)=>{
         .then(summary => res.json({success:true, summary, url: req.query.url}))
         .catch(e => res.json({success:false}))
 })
-app.get('/files',(req,res) => calculate_dir_list(FILES_DIR).then(files=>res.json(files)))
+app.get('/files/',(req,res) => calculate_dir_list(req,FILES_DIR).then(files=>res.json(files)))
+app.get('/files/:filename',(req,res) => serve_file(req,FILES_DIR,res))
 app.get('/proxy',(req,res) => proxy_url(req,res))
 app.get('/calendar/josh',(req,res)=>{
     console.log("fetching the calendar")

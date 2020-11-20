@@ -11,8 +11,9 @@ function skip_files(f) {
     return true
 }
 
-export async function calculate_dir_list(FILES_DIR) {
+export async function calculate_dir_list(req,FILES_DIR) {
     console.log("listing the files in directory", FILES_DIR)
+    console.log("request is",req.path, req.url, req.query, req.params)
     try {
 
         let acc = await fs.promises.access(FILES_DIR)
@@ -37,3 +38,9 @@ export async function calculate_dir_list(FILES_DIR) {
     }
 }
 
+export async function serve_file(req,FILES_DIR,res) {
+    console.log("sending out the file",req.params.filename)
+    let fname = path.resolve(path.join(FILES_DIR,req.params.filename))
+    console.log("fname",fname)
+    res.sendFile(fname)
+}
