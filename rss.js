@@ -19,7 +19,7 @@ export function parse_feed(url,res) {
         console.log("errors",er)
     })
     feedparser.on('meta',meta => {
-        console.log("got the meta",meta)
+        // console.log("got the meta",meta)
         data.meta = {
             title:meta.title,
             description:meta.description,
@@ -27,7 +27,7 @@ export function parse_feed(url,res) {
         }
     })
     feedparser.on('readable',function() {
-        console.log("got readable")
+        // console.log("got readable")
         // let meta = this.meta
         // console.log('meta is',this.meta)
         let item
@@ -39,14 +39,14 @@ export function parse_feed(url,res) {
                 description: item.description,
                 summary:item.summary,
                 date:item.date,
-                permalink:item.permalink,
+                permalink:item.link,
                 guid:item.guid,
             })
 
         }
     })
     feedparser.on('end',function() {
-        console.log("it's over!")
+        // console.log("it's over!")
         res.json(data)
     })
 }
