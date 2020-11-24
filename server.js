@@ -6,6 +6,7 @@ import {calculate_dir_list, serve_file} from './files.js'
 import {fetch_josh_calendar} from './ical.js'
 import {proxy_url} from "./proxy.js"
 import {parse_feed} from "./rss.js"
+import {scan_url} from './scan.js'
 
 let app = express()
 app.use(cors())
@@ -16,7 +17,7 @@ app.set("json spaces", "  ")
 app.get('/',(req,res)=>{
     res.json({
         status:'success',
-        services:['/readability','/files','/calendar/josh','/proxy','/rss']
+        services:['/readability','/files','/calendar/josh','/proxy','/rss','/scan']
     })
 })
 app.get("/readability",(req,res)=>{
@@ -30,6 +31,7 @@ app.get('/files/:filename',(req,res) => serve_file(req,FILES_DIR,res))
 app.get('/rss',(req,res)=> parse_feed(req.query.url,res))
 app.get('/proxy',(req,res) => proxy_url(req,res))
 app.get('/calendar/josh',(req,res)=>fetch_josh_calendar().then(cal => res.json(cal)))
+app.get('/scan',(req,res) => scan_url(req.query.url,res))
 app.listen(PORT,()=>{
     console.log(`listening on port ${PORT}`)
 })

@@ -1,7 +1,7 @@
 
-import {Readability} from '@mozilla/readability'
+import {default as Readability} from '@mozilla/readability'
 import fetch  from 'node-fetch'
-import {JSDOM} from "jsdom"
+import {default as JSDOM} from "jsdom"
 
 
 
