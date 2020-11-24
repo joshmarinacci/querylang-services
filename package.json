@@ -18,6 +18,19 @@
     "feedparser": "^2.2.10",
     "ical": "^0.8.0",
     "jsdom": "^16.4.0",
+    "metascraper": "^5.14.22",
+    "metascraper-author": "^5.14.22",
+    "metascraper-clearbit": "^5.14.24",
+    "metascraper-date": "^5.14.22",
+    "metascraper-description": "^5.14.22",
+    "metascraper-image": "^5.14.22",
+    "metascraper-lang": "^5.14.22",
+    "metascraper-logo": "^5.14.22",
+    "metascraper-logo-favicon": "^5.14.22",
+    "metascraper-publisher": "^5.14.22",
+    "metascraper-title": "^5.14.22",
+    "metascraper-url": "^5.14.22",
     "node-fetch": "^2.6.1"
-  }
+  },
+  "devDependencies": {}
 }
