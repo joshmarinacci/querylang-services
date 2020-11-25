@@ -24,6 +24,17 @@ export function parse_feed(url,res) {
             title:meta.title,
             description:meta.description,
             link:meta.xmlurl,
+            tags:[],
+            is_podcast:false
+        }
+        if(meta.image && meta.image.url) {
+            data.meta.image = meta.image.url
+        }
+        if(meta.categories) {
+            data.meta.tags = meta.categories.slice()
+        }
+        if(meta['itunes:type'] && meta['itunes:type']['#'] === 'episodic') {
+            data.meta.is_podcast = true
         }
     })
     feedparser.on('readable',function() {
@@ -34,15 +45,27 @@ export function parse_feed(url,res) {
         let stream = this
         while(item = stream.read()) {
             // console.log("Item is",item)
-            data.posts.push({
+            let post = {
                 title:item.title,
                 description: item.description,
                 summary:item.summary,
                 date:item.date,
                 permalink:item.link,
                 guid:item.guid,
-            })
+            }
 
+            // console.log(item)
+            const ITD = 'itunes:duration'
+            if(item[ITD] && item[ITD]['#']) {
+                // console.log("ITD",item[ITD])
+                post.duration = parseInt(item[ITD]['#'])
+                // console.log("parsed duration",post.duration)
+            }
+            if(item.image && item.image.url) {
+                post.image = item.image.url
+            }
+            post.enclosures = item.enclosures || []
+            data.posts.push(post)
         }
     })
     feedparser.on('end',function() {

@@ -12,7 +12,6 @@ import ms_url from "metascraper-url"
 import ms_favicon from "metascraper-logo-favicon"
 
 function josh_rss_detector() {
-    console.log("making rss rules")
     const rules = {
         feed: [
             // They receive as parameter:
@@ -40,18 +39,20 @@ const metascraper = metascraper0([
 
 export function scan_url(url, res) {
     console.log("scanning",url)
+    let info = {}
     fetch(url).then(req => {
         console.log("okay is", req.ok)
         // console.log("request headers is",req.headers)
         console.log("content type is", req.headers.get('content-type'))
         console.log("real url is",req.url,req.useFinalURL)
+        info.mimetype = req.headers.get("content-type")
         return req.text()
     }).then(html => {
         // console.log("html is",html)
         return metascraper({html,url})
-    }).then(info => {
-        console.log("scanned is",info)
-        res.json(info)
+    }).then(meta => {
+        console.log("scanned is",meta)
+        res.json(Object.assign(meta,info))
     })
 
 }
