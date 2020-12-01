@@ -18,7 +18,7 @@ let FILES_DIR = "storage"
 app.set("json spaces", "  ")
 
 app.use((req, res, next) => {
-    console.log("checking ",req.headers)
+    // console.log("checking ",req.headers)
     if (req.headers['access-key'] === 'testkey') {
         next();
     } else {
