@@ -11,7 +11,7 @@ import {persist_load, persist_save} from './persist.js'
 import bodyParser from 'body-parser'
 let app = express()
 app.use(cors())
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
 
 let PORT = 30011
 let FILES_DIR = "storage"
