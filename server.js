@@ -9,6 +9,7 @@ import {parse_feed} from "./rss.js"
 import {scan_url} from './scan.js'
 import {persist_load, persist_save} from './persist.js'
 import bodyParser from 'body-parser'
+import {find_city} from './cityinfo.js'
 let app = express()
 app.use(cors())
 app.use(bodyParser.json({limit: '50mb'}));
@@ -17,7 +18,9 @@ let PORT = 30011
 let FILES_DIR = "storage"
 app.set("json spaces", "  ")
 
+let AUTH_ON = false
 app.use((req, res, next) => {
+    if(!AUTH_ON) return next()
     // console.log("checking ",req.headers)
     if (req.headers['access-key'] === 'testkey') {
         next();
@@ -49,6 +52,9 @@ app.get('/calendar/josh',(req,res)=>fetch_josh_calendar().then(cal => res.json(c
 app.get('/scan',(req,res) => scan_url(req.query.url,res))
 app.post('/persist/save/:blobid',(req,res) => persist_save(req.params.blobid,req.body).then(ret => res.json(ret)))
 app.get('/persist/load/:blobid',(req,res) => persist_load(req.params.blobid).then(ret => res.json(ret)))
+app.get('/cityinfo',(req,res)=>{
+    find_city(req.query.city,req.query.state).then(d => res.json(d))
+})
 app.listen(PORT,()=>{
     console.log(`listening on port ${PORT}`)
 })
