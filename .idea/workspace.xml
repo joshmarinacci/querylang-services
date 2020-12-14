@@ -22,11 +22,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="append json to all files">
-      <change afterPath="$PROJECT_DIR$/cityinfo.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/cityinfo.json" afterDir="false" />
+    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="add city info service">
+      <change afterPath="$PROJECT_DIR$/tests/importtests.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +92,11 @@
       <workItem from="1606836401248" duration="3773000" />
       <workItem from="1606869812185" duration="27000" />
       <workItem from="1607022033638" duration="1030000" />
-      <workItem from="1607470334509" duration="643000" />
+      <workItem from="1607470334509" duration="1978000" />
+      <workItem from="1607472924146" duration="221000" />
+      <workItem from="1607535332371" duration="519000" />
+      <workItem from="1607799965402" duration="109000" />
+      <workItem from="1607982727040" duration="1392000" />
     </task>
     <task id="LOCAL-00001" summary="fix imports&#10;add scanner stub">
       <created>1606229237172</created>
@@ -124,7 +126,14 @@
       <option name="project" value="LOCAL" />
       <updated>1606852121839</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="add city info service">
+      <created>1607471167600</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1607471167600</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -147,6 +156,7 @@
     <MESSAGE value="add file scanner" />
     <MESSAGE value="require special key in headers for accessing anything&#10;add persist service which simply loads and saves a JSON blob to disk" />
     <MESSAGE value="append json to all files" />
-    <option name="LAST_COMMIT_MESSAGE" value="append json to all files" />
+    <MESSAGE value="add city info service" />
+    <option name="LAST_COMMIT_MESSAGE" value="add city info service" />
   </component>
 </project>
