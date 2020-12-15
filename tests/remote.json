@@ -1,0 +1,18 @@
+[
+  {
+    "url": "https://vr.josh.earth/assets/2dimages/saturnv.jpg",
+    "path": "tempfile0.9c354b875ba29",
+    "basename": "tempfile0.9c354b875ba29",
+    "size": 349792,
+    "ext": "jpg",
+    "mime": "image/jpeg",
+    "image": {
+      "dimensions": {
+        "height": 816,
+        "orientation": 1,
+        "width": 1024,
+        "type": "jpg"
+      }
+    }
+  }
+]

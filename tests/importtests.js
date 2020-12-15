@@ -177,4 +177,5 @@ async function verify(str) {
 }
 
 // verify('../testfiles/images/answer.json')
-verify('../testfiles/mp3s/answer.json')
+//verify('../testfiles/mp3s/answer.json')
+verify("./tests/remote.json")
