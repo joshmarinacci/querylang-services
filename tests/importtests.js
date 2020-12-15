@@ -45,9 +45,10 @@ There should be an importer service which is used to import data from elsewhere.
 
 import fs from 'fs'
 import path from 'path'
-import FileType  from 'file-type'
+import FileType from 'file-type'
 import {default as mime} from 'mime'
 import sizeOf from 'image-size'
+import {parseFile} from 'music-metadata'
 
 
 async function analyze_file(pth, info) {
@@ -62,31 +63,42 @@ async function analyze_file(pth, info) {
     let obj = {
         path: pth,
         basename: path.basename(pth),
-        size: info.size,
+        size: info.size
         // ext: type.ext,
     }
 
-    if(type) {
+    if (type) {
         obj.ext = type.ext
         obj.mime = type.mime
     }
 
-    if(!obj.ext) {
+    if (!obj.ext) {
         obj.ext = mime.getType(pth)
     }
     //if image, look up the size
-    if(obj.mime) {
+    if (obj.mime) {
         let major = obj.mime.substring(0, obj.mime.indexOf('/'))
-        let minor = obj.mime.substring(obj.mime.indexOf('/')+1)
-        console.log(major,'/',minor)
-        if(major === 'image') {
+        let minor = obj.mime.substring(obj.mime.indexOf('/') + 1)
+        console.log(major, '/', minor)
+        if (major === 'image') {
             obj.image = {}
             obj.image.dimensions = sizeOf(pth)
-            console.log("image info",obj.image)
+            // console.log("image info", obj.image)
         }
-    }
-    //if mp3 look up the tags
+        if (major === 'audio' && minor === 'mpeg') {
+            let res = await parseFile(pth)
+            // console.log("audio", pth, res)
+            obj.audio = {
+                duration: res.format.duration,
+                song: {
+                    artist: res.common.artist,
+                    album: res.common.album,
+                    title: res.common.title,
+                }
+            }
+        }
 
+    }
     //if pdf, get metadata and page length
     // console.log(obj)
     return [obj]
@@ -94,29 +106,31 @@ async function analyze_file(pth, info) {
 
 async function scan_dir(dir) {
     let files = await fs.promises.readdir(dir)
-    let proms = files.map(async function(f) {
-        let pth = path.join(dir,f)
-        if(f.startsWith('.')) return
-        if(f === '.DS_Store') return
+    let proms = files.map(async function (f) {
+        let pth = path.join(dir, f)
+        if (f.startsWith('.')) return
+        if (f === '.DS_Store') return
         // console.log("full path",pth)
         let info = await fs.promises.stat(pth)
         // console.log(info.isDirectory())
-        if(info.isDirectory()) {
+        if (info.isDirectory()) {
             return scan_dir(pth)
         } else {
             // console.log("size", pth, info.size, info.birthtime)
-            return analyze_file(pth,info)
+            return analyze_file(pth, info)
         }
     })
     return Promise.all(proms).then(ret => ret.flat())
 }
+
 async function run_tests(dir) {
     console.log("scanning the dir", dir)
     return scan_dir(dir)
 }
 
-if(!process.argv[2]) {
+if (!process.argv[2]) {
     console.log("no directory specified")
 } else {
-    run_tests(process.argv[2]).then(d => console.log(d))
+    run_tests(process.argv[2])
+        // .then(d => console.log(d))
 }
