@@ -2,7 +2,7 @@ import {calculate_readability} from './readability-example.js'
 
 import cors from 'cors'
 import express from "express"
-import {calculate_dir_list, serve_file} from './files.js'
+import {calculate_dir_list, serve_file} from './src/files.js'
 import {fetch_josh_calendar} from './ical.js'
 import {proxy_url} from "./proxy.js"
 import {parse_feed} from "./rss.js"
