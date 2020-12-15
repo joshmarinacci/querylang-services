@@ -49,7 +49,7 @@ app.get('/files/:filename',(req,res) => serve_file(req,FILES_DIR,res))
 app.get('/rss',(req,res)=> parse_feed(req.query.url,res))
 app.get('/proxy',(req,res) => proxy_url(req,res))
 app.get('/calendar/josh',(req,res)=>fetch_josh_calendar().then(cal => res.json(cal)))
-app.get('/scan',(req,res) => scan_url(req.query.url,res))
+app.get('/scan',(req,res) => scan_url(req.query.url,res).then(d => console.log("done")))
 app.post('/persist/save/:blobid',(req,res) => persist_save(req.params.blobid,req.body).then(ret => res.json(ret)))
 app.get('/persist/load/:blobid',(req,res) => persist_load(req.params.blobid).then(ret => res.json(ret)))
 app.get('/cityinfo',(req,res)=>{

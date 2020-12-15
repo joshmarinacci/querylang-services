@@ -22,9 +22,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="add pdf parsing">
+    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="add simple tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/importtests.js" beforeDir="false" afterPath="$PROJECT_DIR$/tests/importtests.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scan.js" beforeDir="false" afterPath="$PROJECT_DIR$/scan.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +155,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608054159114</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="add simple tests">
+      <created>1608055892811</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1608055892811</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -182,6 +190,7 @@
     <MESSAGE value="load image size" />
     <MESSAGE value="add audio metadata" />
     <MESSAGE value="add pdf parsing" />
-    <option name="LAST_COMMIT_MESSAGE" value="add pdf parsing" />
+    <MESSAGE value="add simple tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="add simple tests" />
   </component>
 </project>

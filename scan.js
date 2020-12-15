@@ -11,6 +11,14 @@ import ms_lang from "metascraper-lang"
 import ms_url from "metascraper-url"
 import ms_favicon from "metascraper-logo-favicon"
 
+import fs from 'fs'
+import FileType from 'file-type'
+import path from 'path'
+import {default as mime} from 'mime'
+import sizeOf from 'image-size'
+import {parseFile} from 'music-metadata'
+import {getDocument} from 'pdfjs-dist/es5/build/pdf.js'
+
 function josh_rss_detector() {
     const rules = {
         feed: [
@@ -37,7 +45,7 @@ const metascraper = metascraper0([
     josh_rss_detector(),
 ])
 
-export function scan_url(url, res) {
+export function scan_url_old(url, res) {
     console.log("scanning",url)
     let info = {}
     fetch(url).then(req => {
@@ -56,3 +64,92 @@ export function scan_url(url, res) {
     })
 
 }
+
+
+const downloadFile = (async (url, path) => {
+    const res = await fetch(url);
+    const fileStream = fs.createWriteStream(path);
+    await new Promise((resolve, reject) => {
+        res.body.pipe(fileStream);
+        res.body.on("error", reject);
+        fileStream.on("finish", resolve);
+    });
+});
+
+
+export async function scan_url(url, res) {
+    console.log("/scan", url)
+    let pth = 'tempfile'+Math.random().toString(16)
+    await downloadFile(url, pth)
+    console.log("it's done")
+    let info = await fs.promises.stat(pth)
+    let ret = await analyze_file(pth,info)
+    console.log("returning",ret)
+    res.json(ret)
+}
+
+async function analyze_file(pth, info) {
+    let type = await FileType.fromFile(pth)
+    // console.log("analyizing", pth)
+    // console.log("type is", type)
+    // console.log("info is", info)
+
+    // if html page, try to parse and get title and other metadata
+    // if mp3 audio, calculate duration and get mp3 tags
+    // if image, get format and size
+    let obj = {
+        path: pth,
+        basename: path.basename(pth),
+        size: info.size
+        // ext: type.ext,
+    }
+
+    if (type) {
+        obj.ext = type.ext
+        obj.mime = type.mime
+    }
+
+    if (!obj.ext) {
+        obj.ext = mime.getType(pth)
+    }
+    //if image, look up the size
+    if (obj.mime) {
+        let major = obj.mime.substring(0, obj.mime.indexOf('/'))
+        let minor = obj.mime.substring(obj.mime.indexOf('/') + 1)
+        // console.log(major, '/', minor)
+        if (major === 'image') {
+            obj.image = {}
+            obj.image.dimensions = sizeOf(pth)
+            // console.log("image info", obj.image)
+        }
+        if (major === 'audio' && minor === 'mpeg') {
+            let res = await parseFile(pth)
+            // console.log("audio", pth, res)
+            obj.audio = {
+                duration: res.format.duration,
+                song: {
+                    artist: res.common.artist,
+                    album: res.common.album,
+                    title: res.common.title,
+                }
+            }
+        }
+        if(major === 'application' && minor === 'pdf') {
+            // console.log("parsing pdf", getDocument)
+            let doc = await getDocument(pth).promise
+            let metadata = await doc.getMetadata()
+            // console.log('page count', doc.numPages,metadata)
+            obj.pdf = {
+                pageCount: doc.numPages,
+                author: metadata.info.Author,
+                title: metadata.info.Title,
+            }
+        }
+
+    }
+    //if pdf, get metadata and page length
+    // console.log(obj)
+    return obj
+}
+
+
