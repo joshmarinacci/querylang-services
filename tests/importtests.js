@@ -47,6 +47,7 @@ import fs from 'fs'
 import path from 'path'
 import FileType  from 'file-type'
 import {default as mime} from 'mime'
+import sizeOf from 'image-size'
 
 
 async function analyze_file(pth, info) {
@@ -73,7 +74,22 @@ async function analyze_file(pth, info) {
     if(!obj.ext) {
         obj.ext = mime.getType(pth)
     }
-    return obj
+    //if image, look up the size
+    if(obj.mime) {
+        let major = obj.mime.substring(0, obj.mime.indexOf('/'))
+        let minor = obj.mime.substring(obj.mime.indexOf('/')+1)
+        console.log(major,'/',minor)
+        if(major === 'image') {
+            obj.image = {}
+            obj.image.dimensions = sizeOf(pth)
+            console.log("image info",obj.image)
+        }
+    }
+    //if mp3 look up the tags
+
+    //if pdf, get metadata and page length
+    // console.log(obj)
+    return [obj]
 }
 
 async function scan_dir(dir) {
@@ -86,13 +102,13 @@ async function scan_dir(dir) {
         let info = await fs.promises.stat(pth)
         // console.log(info.isDirectory())
         if(info.isDirectory()) {
-            scan_dir(pth)
+            return scan_dir(pth)
         } else {
             // console.log("size", pth, info.size, info.birthtime)
             return analyze_file(pth,info)
         }
     })
-    return Promise.all(proms)
+    return Promise.all(proms).then(ret => ret.flat())
 }
 async function run_tests(dir) {
     console.log("scanning the dir", dir)
