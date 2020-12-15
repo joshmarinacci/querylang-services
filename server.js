@@ -6,7 +6,7 @@ import {calculate_dir_list, serve_file} from './files.js'
 import {fetch_josh_calendar} from './ical.js'
 import {proxy_url} from "./proxy.js"
 import {parse_feed} from "./rss.js"
-import {scan_url} from './scan.js'
+import {scan_url} from './src/scan.js'
 import {persist_load, persist_save} from './persist.js'
 import bodyParser from 'body-parser'
 import {find_city} from './cityinfo.js'

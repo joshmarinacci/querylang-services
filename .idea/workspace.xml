@@ -22,11 +22,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="add video parsing">
+    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="remove temp files when done&#10;scan videos&#10;scan html&#10;use content type if we can't determine mimetype from content">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scan.js" beforeDir="false" afterPath="$PROJECT_DIR$/scan.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/remote.json" beforeDir="false" afterPath="$PROJECT_DIR$/tests/remote.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/testremote.js" beforeDir="false" afterPath="$PROJECT_DIR$/tests/testremote.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,7 +181,21 @@
       <option name="project" value="LOCAL" />
       <updated>1608068324036</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="add html scanning back">
+      <created>1608071382466</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1608071382466</updated>
+    </task>
+    <task id="LOCAL-00014" summary="remove temp files when done&#10;scan videos&#10;scan html&#10;use content type if we can't determine mimetype from content">
+      <created>1608071622560</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1608071622560</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -216,6 +227,8 @@
     <MESSAGE value="analyze file using /scan" />
     <MESSAGE value="work on import tests" />
     <MESSAGE value="add video parsing" />
-    <option name="LAST_COMMIT_MESSAGE" value="add video parsing" />
+    <MESSAGE value="add html scanning back" />
+    <MESSAGE value="remove temp files when done&#10;scan videos&#10;scan html&#10;use content type if we can't determine mimetype from content" />
+    <option name="LAST_COMMIT_MESSAGE" value="remove temp files when done&#10;scan videos&#10;scan html&#10;use content type if we can't determine mimetype from content" />
   </component>
 </project>
