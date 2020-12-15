@@ -164,7 +164,7 @@ async function verify(str) {
     let answers = JSON.parse(raw)
     // log(answers)
     for (const ans of answers) {
-        // log(ans)
+        log(ans)
         let pth = path.join(process.cwd(),'../testfiles',ans.path)
         // console.log('analyzing',pth)
         let info = await fs.promises.stat(pth)

@@ -127,9 +127,19 @@ async function analyze_file(pth, info) {
             // console.log("audio", pth, res)
             obj.audio = {
                 duration: res.format.duration,
-                song: {
+                info: {
                     artist: res.common.artist,
                     album: res.common.album,
+                    title: res.common.title,
+                }
+            }
+        }
+        if (major === 'video' && minor === 'mp4') {
+            let res = await parseFile(pth)
+            // console.log("video", pth, res)
+            obj.video = {
+                duration: res.format.duration,
+                info: {
                     title: res.common.title,
                 }
             }

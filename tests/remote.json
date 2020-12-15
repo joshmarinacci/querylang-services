@@ -1,10 +1,7 @@
 [
   {
     "url": "https://vr.josh.earth/assets/2dimages/saturnv.jpg",
-    "path": "tempfile0.9c354b875ba29",
-    "basename": "tempfile0.9c354b875ba29",
     "size": 349792,
-    "ext": "jpg",
     "mime": "image/jpeg",
     "image": {
       "dimensions": {
@@ -12,6 +9,37 @@
         "orientation": 1,
         "width": 1024,
         "type": "jpg"
+      }
+    }
+  },
+  {
+    "url":"https://vr.josh.earth/assets/sounds/clang.mp3",
+    "mime": "audio/mpeg",
+    "size": 13791,
+    "audio": {
+      "duration": 0.8359183673469388,
+      "info": {}
+    }
+  },
+  {
+    "url":"https://vr.josh.earth/assets/sounds/rain.mp3",
+    "mime": "audio/mpeg",
+    "size": 180827,
+    "audio": {
+      "duration": 7.444897959183673,
+      "info": {
+        "title": "334148__svampen__rain-light-loopable"
+      }
+    }
+  },
+  {
+    "url": "https://vr.josh.earth/assets/2dvideos/creative-commons-ad.mp4",
+    "mime": "video/mp4",
+    "size":  8632706,
+    "video": {
+      "duration":  119.98665331998666,
+      "info": {
+"title": "Building On The Past - High Resolution - http://www.archive.org/details/Justin_Cone_-_Building_On_The_Past_-_640x480"
       }
     }
   }
