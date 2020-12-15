@@ -42,5 +42,19 @@
 "title": "Building On The Past - High Resolution - http://www.archive.org/details/Justin_Cone_-_Building_On_The_Past_-_640x480"
       }
     }
+  },
+  {
+    "id": "ars",
+    "url": "https://www.arstechnica.com/",
+    "mime": "text/html",
+    "size": 90309,
+    "html": {
+      "author": "Jeff Dunn",
+      "title": "Ars Technica",
+      "description": "Serving the Technologist for more than a decade. IT news, reviews, and analysis.",
+      "feed": "http://feeds.arstechnica.com/arstechnica/index/",
+      "lang": "en",
+      "url": "https://arstechnica.com"
+    }
   }
 ]

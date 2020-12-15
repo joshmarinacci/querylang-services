@@ -68,11 +68,13 @@ export function scan_url_old(url, res) {
 
 const downloadFile = (async (url, path) => {
     const res = await fetch(url);
+    // console.log("download file. okay is",res.ok)
+    // console.log("content type is", res.headers.get('content-type'))
     const fileStream = fs.createWriteStream(path);
-    await new Promise((resolve, reject) => {
+    return await new Promise((resolve, reject) => {
         res.body.pipe(fileStream);
         res.body.on("error", reject);
-        fileStream.on("finish", resolve);
+        fileStream.on("finish", ()=>resolve(res.headers));
     });
 });
 
@@ -80,20 +82,19 @@ const downloadFile = (async (url, path) => {
 export async function scan_url(url, res) {
     console.log("/scan", url)
     let pth = 'tempfile'+Math.random().toString(16)
-    await downloadFile(url, pth)
-    console.log("it's done")
+    let headers = await downloadFile(url, pth)
     let info = await fs.promises.stat(pth)
-    let ret = await analyze_file(pth,info)
+    let ret = await analyze_file(pth,info,headers,url)
     console.log("returning",ret)
     res.json(ret)
 }
 
-async function analyze_file(pth, info) {
+async function analyze_file(pth, info, headers,url) {
     let type = await FileType.fromFile(pth)
     // console.log("analyizing", pth)
     // console.log("type is", type)
     // console.log("info is", info)
-
+    // console.log("headers is",headers)
     // if html page, try to parse and get title and other metadata
     // if mp3 audio, calculate duration and get mp3 tags
     // if image, get format and size
@@ -112,11 +113,12 @@ async function analyze_file(pth, info) {
     if (!obj.ext) {
         obj.ext = mime.getType(pth)
     }
+
     //if image, look up the size
     if (obj.mime) {
         let major = obj.mime.substring(0, obj.mime.indexOf('/'))
         let minor = obj.mime.substring(obj.mime.indexOf('/') + 1)
-        // console.log(major, '/', minor)
+        console.log(major, '/', minor)
         if (major === 'image') {
             obj.image = {}
             obj.image.dimensions = sizeOf(pth)
@@ -155,7 +157,22 @@ async function analyze_file(pth, info) {
                 title: metadata.info.Title,
             }
         }
+    }
 
+    if(!obj.mime) {
+        obj.mime = headers.get('content-type')
+        if(obj.mime.indexOf(";")>0) {
+            obj.mime = obj.mime.substring(0,obj.mime.indexOf(";"))
+        }
+    }
+
+    if(obj.mime === 'text/html') {
+        let html = await fs.promises.readFile(pth)
+        html = html.toString()
+        console.log("html is",html)
+        let data = await metascraper({html,url})
+        console.log("found data",data)
+        obj.html = data
     }
     //if pdf, get metadata and page length
     // console.log(obj)

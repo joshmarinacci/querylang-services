@@ -22,12 +22,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="work on import tests">
-      <change afterPath="$PROJECT_DIR$/tests/testremote.js" afterDir="false" />
+    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="add video parsing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scan.js" beforeDir="false" afterPath="$PROJECT_DIR$/scan.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/importtests.js" beforeDir="false" afterPath="$PROJECT_DIR$/tests/importtests.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/remote.json" beforeDir="false" afterPath="$PROJECT_DIR$/tests/remote.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/testremote.js" beforeDir="false" afterPath="$PROJECT_DIR$/tests/testremote.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -178,7 +177,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608064196535</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="add video parsing">
+      <created>1608068324036</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1608068324036</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -209,6 +215,7 @@
     <MESSAGE value="add simple tests" />
     <MESSAGE value="analyze file using /scan" />
     <MESSAGE value="work on import tests" />
-    <option name="LAST_COMMIT_MESSAGE" value="work on import tests" />
+    <MESSAGE value="add video parsing" />
+    <option name="LAST_COMMIT_MESSAGE" value="add video parsing" />
   </component>
 </project>
