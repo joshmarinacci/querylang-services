@@ -22,8 +22,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="fixes">
+    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="add audio metadata">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/importtests.js" beforeDir="false" afterPath="$PROJECT_DIR$/tests/importtests.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -133,7 +135,21 @@
       <option name="project" value="LOCAL" />
       <updated>1607471167600</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="load image size">
+      <created>1608052926539</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1608052926540</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add audio metadata">
+      <created>1608053308329</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1608053308329</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -158,6 +174,8 @@
     <MESSAGE value="append json to all files" />
     <MESSAGE value="add city info service" />
     <MESSAGE value="fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixes" />
+    <MESSAGE value="load image size" />
+    <MESSAGE value="add audio metadata" />
+    <option name="LAST_COMMIT_MESSAGE" value="add audio metadata" />
   </component>
 </project>

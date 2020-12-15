@@ -49,7 +49,9 @@ import FileType from 'file-type'
 import {default as mime} from 'mime'
 import sizeOf from 'image-size'
 import {parseFile} from 'music-metadata'
+import {getDocument} from 'pdfjs-dist/es5/build/pdf.js'
 
+// console.log(pdfjs)
 
 async function analyze_file(pth, info) {
     let type = await FileType.fromFile(pth)
@@ -97,6 +99,17 @@ async function analyze_file(pth, info) {
                 }
             }
         }
+        if(major === 'application' && minor === 'pdf') {
+            // console.log("parsing pdf", getDocument)
+            let doc = await getDocument(pth).promise
+            let metadata = await doc.getMetadata()
+            // console.log('page count', doc.numPages,metadata)
+            obj.pdf = {
+                pageCount: doc.numPages,
+                author: metadata.info.Author,
+                title: metadata.info.Title,
+            }
+        }
 
     }
     //if pdf, get metadata and page length
@@ -132,5 +145,5 @@ if (!process.argv[2]) {
     console.log("no directory specified")
 } else {
     run_tests(process.argv[2])
-        // .then(d => console.log(d))
+        .then(d => console.log(d))
 }
