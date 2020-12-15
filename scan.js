@@ -86,6 +86,7 @@ export async function scan_url(url, res) {
     let info = await fs.promises.stat(pth)
     let ret = await analyze_file(pth,info,headers,url)
     console.log("returning",ret)
+    await fs.promises.unlink(pth)
     res.json(ret)
 }
 
@@ -138,7 +139,6 @@ async function analyze_file(pth, info, headers,url) {
         }
         if (major === 'video' && minor === 'mp4') {
             let res = await parseFile(pth)
-            // console.log("video", pth, res)
             obj.video = {
                 duration: res.format.duration,
                 info: {
@@ -169,9 +169,9 @@ async function analyze_file(pth, info, headers,url) {
     if(obj.mime === 'text/html') {
         let html = await fs.promises.readFile(pth)
         html = html.toString()
-        console.log("html is",html)
+        // console.log("html is",html)
         let data = await metascraper({html,url})
-        console.log("found data",data)
+        // console.log("found data",data)
         obj.html = data
     }
     //if pdf, get metadata and page length
