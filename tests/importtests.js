@@ -50,6 +50,9 @@ import {default as mime} from 'mime'
 import sizeOf from 'image-size'
 import {parseFile} from 'music-metadata'
 import {getDocument} from 'pdfjs-dist/es5/build/pdf.js'
+import {default as util} from 'util'
+import {deepStrictEqual} from 'assert'
+
 
 // console.log(pdfjs)
 
@@ -81,7 +84,7 @@ async function analyze_file(pth, info) {
     if (obj.mime) {
         let major = obj.mime.substring(0, obj.mime.indexOf('/'))
         let minor = obj.mime.substring(obj.mime.indexOf('/') + 1)
-        console.log(major, '/', minor)
+        // console.log(major, '/', minor)
         if (major === 'image') {
             obj.image = {}
             obj.image.dimensions = sizeOf(pth)
@@ -141,9 +144,37 @@ async function run_tests(dir) {
     return scan_dir(dir)
 }
 
+/*
 if (!process.argv[2]) {
     console.log("no directory specified")
 } else {
     run_tests(process.argv[2])
-        .then(d => console.log(d))
+        .then(d => {
+            // console.log(d)
+            console.log(util.inspect(d, {depth:null}))
+            // d.forEach(o => util.inspect(o))
+        })
 }
+*/
+const log = (...args) => console.log(...args)
+
+async function verify(str) {
+    // log("verifying", str)
+    let raw = await fs.promises.readFile(str)//.toString()
+    let answers = JSON.parse(raw)
+    // log(answers)
+    for (const ans of answers) {
+        // log(ans)
+        let pth = path.join(process.cwd(),'../testfiles',ans.path)
+        // console.log('analyzing',pth)
+        let info = await fs.promises.stat(pth)
+        let ret = await analyze_file(pth, info)
+        ans.path = ret[0].path
+        deepStrictEqual(ans,ret[0])
+        log("valid",pth)
+        // log(ret[0])
+    }
+}
+
+// verify('../testfiles/images/answer.json')
+verify('../testfiles/mp3s/answer.json')

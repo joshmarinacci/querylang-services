@@ -22,10 +22,8 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="add audio metadata">
+    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="add pdf parsing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/importtests.js" beforeDir="false" afterPath="$PROJECT_DIR$/tests/importtests.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -149,7 +147,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608053308329</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="add pdf parsing">
+      <created>1608054159114</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1608054159114</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -176,6 +181,7 @@
     <MESSAGE value="fixes" />
     <MESSAGE value="load image size" />
     <MESSAGE value="add audio metadata" />
-    <option name="LAST_COMMIT_MESSAGE" value="add audio metadata" />
+    <MESSAGE value="add pdf parsing" />
+    <option name="LAST_COMMIT_MESSAGE" value="add pdf parsing" />
   </component>
 </project>
