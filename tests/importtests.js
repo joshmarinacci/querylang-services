@@ -18,26 +18,69 @@ There should be an importer service which is used to import data from elsewhere.
 * if it’s an image, what is the bit depth, resolution, size, and other data about it.
 */
 
+/*
+[+] Calls scan function with buffer of file
+[+] Returns obj
+[+] Test that obj is correct name and size and mimetype
+- For images get size
+- For mp3s get tags
+- For PDF get metadata
+- Second version does post to service. Same tests.
+- Add /ingest Which scans then saves to disk
+- On ingest write thumbnail with specific name.
+- No state just files on disk with specific name structure.
+- Add thumbnail/small route. Returns from disk.
+- /files/id/filename thumbs/small.400x600.jpg etc
+- Text summary is generated to thumb/short.txt
+- Render first page of PDF to png
+- Calculate length of PDF in pages
+- Returns all info after ingestion
+- Also writes all info to info.json during ingestion
+- Add test to see if caching worked
+- How to prevent simultaneous generation of same file twice?
+- Add thumbnail panel to file browser
+- Add Thumbnail panel to scan command. Offer to ingest
+
+ */
+
 import fs from 'fs'
 import path from 'path'
+import FileType  from 'file-type'
+import {default as mime} from 'mime'
 
-function analyze_file(pth, info) {
-    console.log("analyizing",pth)
 
-    // submit to http post
-    // byte size
-    // mime type
-    // filename
+async function analyze_file(pth, info) {
+    let type = await FileType.fromFile(pth)
+    // console.log("analyizing", pth)
+    // console.log("type is", type)
+    // console.log("info is", info)
+
     // if html page, try to parse and get title and other metadata
     // if mp3 audio, calculate duration and get mp3 tags
     // if image, get format and size
-    // https://www.npmjs.com/package/file-type
+    let obj = {
+        path: pth,
+        basename: path.basename(pth),
+        size: info.size,
+        // ext: type.ext,
+    }
+
+    if(type) {
+        obj.ext = type.ext
+        obj.mime = type.mime
+    }
+
+    if(!obj.ext) {
+        obj.ext = mime.getType(pth)
+    }
+    return obj
 }
 
 async function scan_dir(dir) {
     let files = await fs.promises.readdir(dir)
     let proms = files.map(async function(f) {
         let pth = path.join(dir,f)
+        if(f.startsWith('.')) return
         if(f === '.DS_Store') return
         // console.log("full path",pth)
         let info = await fs.promises.stat(pth)
@@ -46,17 +89,18 @@ async function scan_dir(dir) {
             scan_dir(pth)
         } else {
             // console.log("size", pth, info.size, info.birthtime)
-            analyze_file(pth,info)
+            return analyze_file(pth,info)
         }
     })
+    return Promise.all(proms)
 }
 async function run_tests(dir) {
     console.log("scanning the dir", dir)
-    scan_dir(dir)
+    return scan_dir(dir)
 }
 
 if(!process.argv[2]) {
     console.log("no directory specified")
 } else {
-    run_tests(process.argv[2])
+    run_tests(process.argv[2]).then(d => console.log(d))
 }

@@ -16,6 +16,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "feedparser": "^2.2.10",
+    "file-type": "^16.0.1",
     "ical": "^0.8.0",
     "jsdom": "^16.4.0",
     "metascraper": "^5.14.22",
@@ -30,6 +31,7 @@
     "metascraper-publisher": "^5.14.22",
     "metascraper-title": "^5.14.22",
     "metascraper-url": "^5.14.22",
+    "mime": "^2.4.6",
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {}
