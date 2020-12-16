@@ -31,11 +31,12 @@ async function run_test(tst) {
 
     //call /files/list  to get all files
     let list_result = await fetch(`${BASE}/files/list`).then(r => r.json())
-    console.log("list result is",list_result)
+    // console.log("list result is",list_result)
     console.log("looking for",import_result.fileid)
     ok(list_result.some(file => file.fileid === import_result.fileid),true)
     ok(list_result.some(file => file.info.size === scan_info.size),true)
 
+    /*
     // //call /files/file/id/thumbs/thumb.256.jpg verify the size
     let thumb = await fetch(`${BASE}/files/file/${import_result.fileid}/thumbs/thumb.256w.jpg`).then(r => r.buffer())
     console.log("got thumb",thumb)
@@ -43,11 +44,13 @@ async function run_test(tst) {
     let dim = sizeOf(thumb)
     console.log("dims is",dim)
     deepStrictEqual(sizeOf(thumb),{width:256, height:204, orientation:1, type:'jpg'})
+    */
 
     //call /files/file/id/data to get the real data. verify the length
     let data = await fetch(`${BASE}/files/file/${import_result.fileid}/data`).then(r => r.buffer())
     console.log("got data",data)
-    strictEqual(data.length,349792)
+    strictEqual(data.length,tst.size)
+    console.log("SUCCESS:",tst.url)
 }
 
 async function run(json_path, id) {
@@ -62,4 +65,13 @@ async function run(json_path, id) {
 
 run_test({
     url: 'https://vr.josh.earth/assets/2dimages/saturnv.jpg',
+    size:349792,
+    // url:"http://127.0.0.1:8080/pdfs/20reasons.pdf",
+    // size:158397,
+})
+run_test({
+    // url: 'https://vr.josh.earth/assets/2dimages/saturnv.jpg',
+    // size:349792,
+    url:"http://127.0.0.1:8080/pdfs/20reasons.pdf",
+    size:158397,
 })

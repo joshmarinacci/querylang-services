@@ -16,8 +16,10 @@ import FileType from 'file-type'
 import path from 'path'
 import {default as mime} from 'mime'
 import sizeOf from 'image-size'
-import {parseFile} from 'music-metadata'
-import {getDocument} from 'pdfjs-dist/es5/build/pdf.js'
+import music_meta from 'music-metadata'
+const {parseFile} = music_meta
+import pdf_lib from 'pdfjs-dist/es5/build/pdf.js'
+const {getDocument} = pdf_lib
 
 function josh_rss_detector() {
     const rules = {
