@@ -66,7 +66,7 @@ export function scan_url_old(url, res) {
 }
 
 
-const downloadFile = (async (url, path) => {
+export const downloadFile = (async (url, path) => {
     const res = await fetch(url);
     // console.log("download file. okay is",res.ok)
     // console.log("content type is", res.headers.get('content-type'))
@@ -90,7 +90,7 @@ export async function scan_url(url, res) {
     res.json(ret)
 }
 
-async function analyze_file(pth, info, headers,url) {
+export async function analyze_file(pth, info, headers,url) {
     let type = await FileType.fromFile(pth)
     // console.log("analyizing", pth)
     // console.log("type is", type)

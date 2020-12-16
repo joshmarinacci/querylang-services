@@ -7,7 +7,7 @@
 
 import fs from 'fs'
 import fetch from 'node-fetch'
-import {deepStrictEqual, strictEqual} from 'assert'
+import {deepStrictEqual, strictEqual, ok} from 'assert'
 
 const BASE = "http://localhost:30011"
 
@@ -25,22 +25,25 @@ async function run_test(tst) {
     strictEqual(scan_info.mime,import_result.info.mime)
 
     //call /files/file/id/info to get the info. verify the same
-    let info_result = await fetch(`${BASE}/files/${import_result.fileid}/info`).then(r => r.json())
+    let info_result = await fetch(`${BASE}/files/file/${import_result.fileid}/info`).then(r => r.json())
     strictEqual(scan_info.size,info_result.size)
 
     //call /files/list  to get all files
     let list_result = await fetch(`${BASE}/files/list`).then(r => r.json())
-    strictEqual(list_result.some(file => file.id === import_result.fileid),true)
-    strictEqual(list_result.some(file => file.size === scan_info.size),true)
+    console.log("list result is",list_result)
+    console.log("looking for",import_result.fileid)
+    // console.log('some',list_result.some(file => file.fileid === import_result.fileid))
+    ok(list_result.some(file => file.fileid === import_result.fileid),true)
+    ok(list_result.some(file => file.info.size === scan_info.size),true)
 
-    //call /files/file/id/thumbs/thumb.256.jpg verify the size
-    let thumb = await fetch(`${BASE}/files/${import_result.fileid}/thumbs/thumb.256.jpg`).then(r => r.data())
-    console.log("got data",thumb)
-    strictEqual(get_image_size_from_buffer(thumb).width,256)
-
-    //call /files/file/id/data to get the real data. verify the length
-    let data = await fetch(`${BASE}/files/${import_result.fileid}/data`).then(r => r.data())
-    strictEqual(data.length,30000)
+    // //call /files/file/id/thumbs/thumb.256.jpg verify the size
+    // let thumb = await fetch(`${BASE}/files/${import_result.fileid}/thumbs/thumb.256.jpg`).then(r => r.data())
+    // console.log("got data",thumb)
+    // strictEqual(get_image_size_from_buffer(thumb).width,256)
+    //
+    // //call /files/file/id/data to get the real data. verify the length
+    // let data = await fetch(`${BASE}/files/${import_result.fileid}/data`).then(r => r.data())
+    // strictEqual(data.length,30000)
 }
 
 async function run(json_path, id) {

@@ -22,11 +22,12 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="move files around">
-      <change afterPath="$PROJECT_DIR$/tests/ingestremote.test.js" afterDir="false" />
+    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="add initial test for ingestion. doesn't work yet">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/files.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/files.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/files.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/files.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scan.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/scan.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/ingestremote.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ingestremote.test.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,7 +105,7 @@
       <workItem from="1607535332371" duration="519000" />
       <workItem from="1607799965402" duration="109000" />
       <workItem from="1607982727040" duration="1392000" />
-      <workItem from="1608073941789" duration="1139000" />
+      <workItem from="1608073941789" duration="2808000" />
     </task>
     <task id="LOCAL-00001" summary="fix imports&#10;add scanner stub">
       <created>1606229237172</created>
@@ -211,7 +212,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608074030531</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="add initial test for ingestion. doesn't work yet">
+      <created>1608075196452</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1608075196452</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -246,6 +254,7 @@
     <MESSAGE value="add html scanning back" />
     <MESSAGE value="remove temp files when done&#10;scan videos&#10;scan html&#10;use content type if we can't determine mimetype from content" />
     <MESSAGE value="move files around" />
-    <option name="LAST_COMMIT_MESSAGE" value="move files around" />
+    <MESSAGE value="add initial test for ingestion. doesn't work yet" />
+    <option name="LAST_COMMIT_MESSAGE" value="add initial test for ingestion. doesn't work yet" />
   </component>
 </project>

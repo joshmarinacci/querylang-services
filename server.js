@@ -2,7 +2,7 @@ import {calculate_readability} from './readability-example.js'
 
 import cors from 'cors'
 import express from "express"
-import {calculate_dir_list, serve_file} from './src/files.js'
+import {calculate_dir_list, get_file_info, import_file, list_files, serve_file} from './src/files.js'
 import {fetch_josh_calendar} from './ical.js'
 import {proxy_url} from "./proxy.js"
 import {parse_feed} from "./rss.js"
@@ -44,8 +44,14 @@ app.get("/readability",(req,res)=>{
         .then(summary => res.json({success:true, summary, url: req.query.url}))
         .catch(e => res.json({success:false}))
 })
-app.get('/files/',(req,res) => calculate_dir_list(req,FILES_DIR).then(files=>res.json(files)))
-app.get('/files/:filename',(req,res) => serve_file(req,FILES_DIR,res))
+app.get('/files/import',(req,res) => import_file(req.query.url,FILES_DIR).then(ret=>res.json(ret)))
+app.get('/files/file/:id/info',(req,res) => get_file_info(req.params.id,FILES_DIR).then(ret=>res.json(ret)))
+app.get('/files/list',(req,res) => list_files(FILES_DIR).then(ret=>res.json(ret)))
+app.get('/files/file/:id/thumbs/:thumbid', (req,res) => get_thumbs(req.params.id, req.params.thumbid, res))
+app.get('/files/file/:id/data', (req,res) => get_file_data(req.params.id, res))
+
+// app.get('/files/',(req,res) => calculate_dir_list(req,FILES_DIR).then(files=>res.json(files)))
+// app.get('/files/:filename',(req,res) => serve_file(req,FILES_DIR,res))
 app.get('/rss',(req,res)=> parse_feed(req.query.url,res))
 app.get('/proxy',(req,res) => proxy_url(req,res))
 app.get('/calendar/josh',(req,res)=>fetch_josh_calendar().then(cal => res.json(cal)))
