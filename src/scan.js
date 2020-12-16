@@ -87,7 +87,7 @@ export async function scan_url(url, res) {
     let headers = await downloadFile(url, pth)
     let info = await fs.promises.stat(pth)
     let ret = await analyze_file(pth,info,headers,url)
-    console.log("returning",ret)
+    // console.log("returning",ret)
     await fs.promises.unlink(pth)
     res.json(ret)
 }

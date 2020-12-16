@@ -9,6 +9,7 @@ import fs from 'fs'
 import fetch from 'node-fetch'
 import {deepStrictEqual, strictEqual, ok} from 'assert'
 import sizeOf from 'image-size'
+import {inspect} from 'util'
 
 const BASE = "http://localhost:30011"
 
@@ -19,8 +20,9 @@ async function run_test(tst) {
     let scan_info = await fetch(`${BASE}/scan?url=${tst.url}`).then(r => r.json())
     console.log("scan info is", scan_info)
     //call /files/import?url   get id and info. verify the same
+    console.log('importing at',BASE)
     let import_result = await fetch(`${BASE}/files/import?url=${tst.url}`).then(r=>r.json())
-    console.log("import result is",import_result)
+    console.log("import result is",inspect(import_result, {depth: 10}))
 
     strictEqual(scan_info.size,import_result.info.size)
     strictEqual(scan_info.mime,import_result.info.mime)
@@ -32,7 +34,7 @@ async function run_test(tst) {
     //call /files/list  to get all files
     let list_result = await fetch(`${BASE}/files/list`).then(r => r.json())
     // console.log("list result is",list_result)
-    console.log("looking for",import_result.fileid)
+    // console.log("looking for",import_result.fileid)
     ok(list_result.some(file => file.fileid === import_result.fileid),true)
     ok(list_result.some(file => file.info.size === scan_info.size),true)
 
@@ -48,7 +50,7 @@ async function run_test(tst) {
 
     //call /files/file/id/data to get the real data. verify the length
     let data = await fetch(`${BASE}/files/file/${import_result.fileid}/data`).then(r => r.buffer())
-    console.log("got data",data)
+    // console.log("got data",data)
     strictEqual(data.length,tst.size)
     console.log("SUCCESS:",tst.url)
 }
@@ -63,12 +65,12 @@ async function run(json_path, id) {
 
 // run("./tests/remote.json",process.argv[2])
 
-run_test({
-    url: 'https://vr.josh.earth/assets/2dimages/saturnv.jpg',
-    size:349792,
-    // url:"http://127.0.0.1:8080/pdfs/20reasons.pdf",
-    // size:158397,
-})
+// run_test({
+//     url: 'https://vr.josh.earth/assets/2dimages/saturnv.jpg',
+//     size:349792,
+//     // url:"http://127.0.0.1:8080/pdfs/20reasons.pdf",
+//     // size:158397,
+// })
 run_test({
     // url: 'https://vr.josh.earth/assets/2dimages/saturnv.jpg',
     // size:349792,

@@ -2,6 +2,9 @@ import fs from 'fs'
 import path from 'path'
 import {analyze_file, downloadFile} from './scan.js'
 import Jimp from "jimp"
+import pdf_lib from 'pdfjs-dist/es5/build/pdf.js'
+import {render_page_to_png} from './pdf.js'
+const {getDocument} = pdf_lib
 
 let DEBUG = false
 
@@ -73,6 +76,21 @@ async function generate_jpeg_thumbnail(data_path, thumbs_dir) {
     }
 }
 
+async function generate_pdf_thumbnail(data_path, thumbsdir) {
+    log("generating thumbnail at",data_path, 'dir',thumbsdir)
+    let doc = await getDocument(data_path).promise
+    let metadata = await doc.getMetadata()
+    log('metadata is',metadata)
+    let thumb_id = "thumb.txt"
+    let thumb_path = path.join(thumbsdir,thumb_id)
+    await render_page_to_png(data_path,thumb_path)
+    return {
+        path:thumb_path,
+        thumbid:thumb_id,
+        length: 500,
+    }
+}
+
 export async function import_file(url, FILES_DIR) {
     log("importing",url)
     let fileid = "file_"+Math.random().toString(16)
@@ -90,11 +108,17 @@ export async function import_file(url, FILES_DIR) {
 
     //if image
     if(info.mime === 'image/jpeg') {
-        log("generating thumbnail for",info)
+        log("generating thumbnail for image",info)
         if(info.image.dimensions.width > 256) {
             let thumb_info = await generate_jpeg_thumbnail(data_path,thumbsdir)
             info.image.thumbs = [thumb_info]
         }
+    }
+
+    if(info.mime === 'application/pdf') {
+        log("generating thumnail for pdf",info)
+        let thumb_info = await generate_pdf_thumbnail(data_path,thumbsdir)
+        info.pdf.thumbs = [thumb_info]
     }
 
 

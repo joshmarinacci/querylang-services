@@ -36,7 +36,8 @@
     "mime": "^2.4.6",
     "music-metadata": "^7.5.2",
     "node-fetch": "^2.6.1",
-    "pdfjs-dist": "^2.5.207"
+    "pdfjs-dist": "^2.5.207",
+    "pureimage": "^0.2.5"
   },
   "devDependencies": {}
 }
