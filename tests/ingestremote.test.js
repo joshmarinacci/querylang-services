@@ -8,6 +8,7 @@
 import fs from 'fs'
 import fetch from 'node-fetch'
 import {deepStrictEqual, strictEqual, ok} from 'assert'
+import sizeOf from 'image-size'
 
 const BASE = "http://localhost:30011"
 
@@ -32,18 +33,21 @@ async function run_test(tst) {
     let list_result = await fetch(`${BASE}/files/list`).then(r => r.json())
     console.log("list result is",list_result)
     console.log("looking for",import_result.fileid)
-    // console.log('some',list_result.some(file => file.fileid === import_result.fileid))
     ok(list_result.some(file => file.fileid === import_result.fileid),true)
     ok(list_result.some(file => file.info.size === scan_info.size),true)
 
     // //call /files/file/id/thumbs/thumb.256.jpg verify the size
-    // let thumb = await fetch(`${BASE}/files/${import_result.fileid}/thumbs/thumb.256.jpg`).then(r => r.data())
-    // console.log("got data",thumb)
-    // strictEqual(get_image_size_from_buffer(thumb).width,256)
-    //
-    // //call /files/file/id/data to get the real data. verify the length
-    // let data = await fetch(`${BASE}/files/${import_result.fileid}/data`).then(r => r.data())
-    // strictEqual(data.length,30000)
+    let thumb = await fetch(`${BASE}/files/file/${import_result.fileid}/thumbs/thumb.256w.jpg`).then(r => r.buffer())
+    console.log("got thumb",thumb)
+    // strictEqual(thumb.type,'image/jpeg')
+    let dim = sizeOf(thumb)
+    console.log("dims is",dim)
+    deepStrictEqual(sizeOf(thumb),{width:256, height:204, orientation:1, type:'jpg'})
+
+    //call /files/file/id/data to get the real data. verify the length
+    let data = await fetch(`${BASE}/files/file/${import_result.fileid}/data`).then(r => r.buffer())
+    console.log("got data",data)
+    strictEqual(data.length,349792)
 }
 
 async function run(json_path, id) {

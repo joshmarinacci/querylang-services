@@ -1,8 +1,9 @@
 import fs from 'fs'
 import path from 'path'
 import {analyze_file, downloadFile} from './scan.js'
+import Jimp from "jimp"
 
-let DEBUG = true
+let DEBUG = false
 
 function lookup_mimetype(info) {
     if(info.ext === '.jpg') return "image/jpeg"
@@ -54,20 +55,54 @@ function log(...args) {
     if(DEBUG) console.log(...args)
 }
 
+async function generate_jpeg_thumbnail(data_path, thumbs_dir) {
+    log("reading data path",data_path)
+    let image = await Jimp.read(data_path)
+    log("got image",image)
+    image.resize(256, Jimp.AUTO)
+    log("resized image")
+    let thumb_id = 'thumb.256w.jpg'
+    let thumb_path = path.join(thumbs_dir,thumb_id)
+    log('writing to',thumb_path)
+    await image.writeAsync(thumb_path)
+    log("wrote out. done with thumb")
+    return {
+        path:thumb_path,
+        thumbid:thumb_id,
+        width: 256,
+    }
+}
+
 export async function import_file(url, FILES_DIR) {
     log("importing",url)
     let fileid = "file_"+Math.random().toString(16)
     log("fileid is",fileid)
     let filedir = path.join(FILES_DIR,fileid)
     await fs.promises.mkdir(filedir)
+    let thumbsdir = path.join(filedir,'thumbs')
+    await fs.promises.mkdir(thumbsdir)
     let data_path = path.join(filedir,'data')
     log("data in",data_path)
     let headers = await downloadFile(url, data_path)
     let stats = await fs.promises.stat(data_path)
     let info = await analyze_file(data_path,stats,headers,url)
     log("info is",info)
+
+    //if image
+    if(info.mime === 'image/jpeg') {
+        log("generating thumbnail for",info)
+        if(info.image.dimensions.width > 256) {
+            let thumb_info = await generate_jpeg_thumbnail(data_path,thumbsdir)
+            info.image.thumbs = [thumb_info]
+        }
+    }
+
+
+    //write the info.json
     let info_path = path.join(filedir,'info.json')
     await fs.promises.writeFile(info_path, JSON.stringify(info))
+
+
     return {
         fileid: fileid,
         info: info,
@@ -75,16 +110,16 @@ export async function import_file(url, FILES_DIR) {
 }
 
 export async function get_file_info(fileid,FILES_DIR) {
-    log('getting file info for',fileid)
+    // log('getting file info for',fileid)
     let info_path = path.join(FILES_DIR,fileid,'info.json')
     let json = await fs.promises.readFile(info_path)
     json = JSON.parse(json)
-    log("loaded json",json)
+    // log("loaded json",json)
     return json
 }
 
 export async function list_files(FILES_DIR) {
-    log("listing files in",FILES_DIR)
+    // log("listing files in",FILES_DIR)
     let files = await fs.promises.readdir(FILES_DIR)
     files = files.filter(f => {
         if(f.indexOf('.')===0) return false
@@ -95,19 +130,29 @@ export async function list_files(FILES_DIR) {
     for(let id of files) {
         try {
             let info = await get_file_info(id, FILES_DIR)
-            console.log('info is', info)
+            // console.log('info is', info)
             res.push({fileid:id,info:info})
         } catch (e) {
             console.log("error",e)
         }
     }
-    // files = await Promise.all(files.map(f => get_file_info(f,FILES_DIR))).then(d => console.log('got d',d))
-    // files = await Promise.all(files.map(f => {
-    //     return {
-    //         fileid:f,
-    //         info: get_file_info(f,FILES_DIR)
-    //     }
-    // }))
-    log("files info",res)
     return res
+}
+
+export async function get_thumbs(fileid, thumbid, FILES_DIR, res) {
+    log("getting thumb for ",fileid,'called',thumbid)
+    let info = await get_file_info(fileid,FILES_DIR)
+    log("info is",info.image.thumbs)
+    let thumb_info = info.image.thumbs.find(th => th.thumbid === thumbid)
+    log("thumb info is",thumb_info)
+    let abs = path.join(process.cwd(),thumb_info.path)
+    log('abs path is',abs)
+    res.sendFile(abs)
+}
+
+export async function get_file_data(fileid, FILES_DIR, res) {
+    log("getting file data for",fileid)
+    let file_path = path.join(process.cwd(),FILES_DIR,fileid,'data')
+    log("abs data path is",file_path)
+    res.sendFile(file_path)
 }

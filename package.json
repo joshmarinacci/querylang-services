@@ -19,6 +19,7 @@
     "file-type": "^16.0.1",
     "ical": "^0.8.0",
     "image-size": "^0.9.3",
+    "jimp": "^0.16.1",
     "jsdom": "^16.4.0",
     "metascraper": "^5.14.22",
     "metascraper-author": "^5.14.22",
