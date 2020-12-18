@@ -37,6 +37,10 @@ async function run_test(tst) {
 
     strictEqual(scan_info.size,import_result.info.size)
     strictEqual(scan_info.mime,import_result.info.mime)
+    if(tst.basename) {
+        console.log("verifying basename",tst.basename)
+        strictEqual(tst.basename,import_result.info.basename)
+    }
 
     //call /files/file/id/info to get the info. verify the same
     await doWait(1000)
@@ -92,6 +96,7 @@ let tests = [
     {
         url: 'https://vr.josh.earth/assets/2dimages/saturnv.jpg',
         size: 349792,
+        basename: 'saturnv.jpg',
         thumb: {
             image: {
                 width: 256,
@@ -108,6 +113,7 @@ let tests = [
     {
         url:"http://127.0.0.1:8080/text/bretvictor.md",
         size:36842,
+        basename: 'bretvictor.md',
         thumb: {
             text: {
                 start:'[TOC]'
@@ -117,6 +123,7 @@ let tests = [
     {
         url:"http://127.0.0.1:8080/text/rpneval.js",
         size:784,
+        basename:'rpneval.js',
         thumb: {
             text: {
                 start:'const e'

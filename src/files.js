@@ -109,13 +109,13 @@ async function generate_text_thumbnail(data_path, thumbsdir) {
 export async function import_file(url, FILES_DIR) {
     log("importing",url)
     let fileid = "file_"+Math.random().toString(16)
-    log("fileid is",fileid)
+    // log("fileid is",fileid)
     let filedir = path.join(FILES_DIR,fileid)
     await fs.promises.mkdir(filedir)
     let thumbsdir = path.join(filedir,'thumbs')
     await fs.promises.mkdir(thumbsdir)
     let data_path = path.join(filedir,'data')
-    log("data in",data_path)
+    // log("data in",data_path)
     let headers = await downloadFile(url, data_path)
     let stats = await fs.promises.stat(data_path)
     let info = await analyze_file(data_path,stats,headers,url)
@@ -123,7 +123,7 @@ export async function import_file(url, FILES_DIR) {
 
     //if image
     if(info.mime === 'image/jpeg') {
-        log("generating thumbnail for image",info)
+        // log("generating thumbnail for image",info)
         if(info.image.dimensions.width > 256) {
             let thumb_info = await generate_jpeg_thumbnail(data_path,thumbsdir)
             info.image.thumbs = [thumb_info]
@@ -131,12 +131,12 @@ export async function import_file(url, FILES_DIR) {
     }
 
     if(info.mime === 'application/pdf') {
-        log("generating thumnail for pdf",info)
+        // log("generating thumnail for pdf",info)
         let thumb_info = await generate_pdf_thumbnail(data_path,thumbsdir)
         info.pdf.thumbs = [thumb_info]
     }
     if(info.mime === 'text/markdown' || info.mime === 'application/javascript') {
-        log("generating thumbnail for text file",info)
+        // log("generating thumbnail for text file",info)
         let thumb_info = await generate_text_thumbnail(data_path,thumbsdir)
         info.text = {}
         info.text.thumbs = [thumb_info]
@@ -185,9 +185,9 @@ export async function list_files(FILES_DIR) {
 }
 
 export async function get_thumbs(fileid, thumbid, FILES_DIR, res) {
-    log("getting thumb for ",fileid,'called',thumbid)
+    // log("getting thumb for ",fileid,'called',thumbid)
     let info = await get_file_info(fileid,FILES_DIR)
-    log("info is",info)
+    // log("info is",info)
     let thumb_info = null
     if(info.image && info.image.thumbs) {
         thumb_info = info.image.thumbs.find(th => th.thumbid === thumbid)
@@ -195,9 +195,9 @@ export async function get_thumbs(fileid, thumbid, FILES_DIR, res) {
     if(info.text && info.text.thumbs) {
         thumb_info = info.text.thumbs.find(th => th.thumbid === thumbid)
     }
-    log("thumb info is",thumb_info)
+    // log("thumb info is",thumb_info)
     let abs = path.join(process.cwd(),thumb_info.path)
-    log('abs path is',abs)
+    // log('abs path is',abs)
     res.sendFile(abs)
 }
 

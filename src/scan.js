@@ -95,6 +95,7 @@ export async function scan_url(url, res) {
 export async function analyze_file(pth, info, headers,url) {
     let type = await FileType.fromFile(pth)
     // console.log("analyizing", pth)
+    // console.log("original url is",url)
     // console.log("type is", type)
     // console.log("info is", info)
     // console.log("headers is",headers)
@@ -106,6 +107,15 @@ export async function analyze_file(pth, info, headers,url) {
         basename: path.basename(pth),
         size: info.size
         // ext: type.ext,
+    }
+    if(obj.basename === 'data' && url) {
+        let turl = new URL(url)
+        // console.log("lets get a filename from the URL instead",turl.pathname)
+        if(turl.pathname && (turl.pathname.indexOf('/')>=0)) {
+            let n = turl.pathname.lastIndexOf('/')
+            obj.basename = turl.pathname.substring(n+1)
+            // console.log("new basename",obj.basename)
+        }
     }
 
     if (type) {
