@@ -27,7 +27,7 @@ async function go() {
     await doRun('http-server', ['.'], '../querylang-testdata','webserver')
     await doWait(3000)
     await doRun('npm',['start'],'.','server')
-    await doWait(3000)
+    await doWait(2000)
     await doRun('node',['tests/ingestremote.test.js'],'','test')
 }
 

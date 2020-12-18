@@ -10,6 +10,7 @@ import fetch from 'node-fetch'
 import {deepStrictEqual, strictEqual, ok} from 'assert'
 import sizeOf from 'image-size'
 import {inspect} from 'util'
+import assert from 'assert'
 
 const BASE = "http://localhost:30011"
 
@@ -51,15 +52,25 @@ async function run_test(tst) {
     ok(list_result.some(file => file.fileid === import_result.fileid),true)
     ok(list_result.some(file => file.info.size === scan_info.size),true)
 
-    /*
+
     // //call /files/file/id/thumbs/thumb.256.jpg verify the size
-    let thumb = await fetch(`${BASE}/files/file/${import_result.fileid}/thumbs/thumb.256w.jpg`).then(r => r.buffer())
-    console.log("got thumb",thumb)
-    // strictEqual(thumb.type,'image/jpeg')
-    let dim = sizeOf(thumb)
-    console.log("dims is",dim)
-    deepStrictEqual(sizeOf(thumb),{width:256, height:204, orientation:1, type:'jpg'})
-    */
+    if(tst.thumb) {
+        if(tst.thumb.image) {
+            console.log("checking image thumb")
+            let thumb = await fetch(`${BASE}/files/file/${import_result.fileid}/thumbs/thumb.256w.jpg`).then(r => r.buffer())
+            // console.log("got thumb",thumb)
+            // strictEqual(thumb.type,'image/jpeg')
+            let dim = sizeOf(thumb)
+            // console.log("dims is",dim)
+            deepStrictEqual(sizeOf(thumb),tst.thumb.image)
+        }
+        if(tst.thumb.text) {
+            console.log("checking text thumb")
+            assert(import_result.info.text.thumbs)
+            let thumb = await fetch(`${BASE}/files/file/${import_result.fileid}/thumbs/thumb.txt`).then(r => r.text())
+            console.log("got thumb ",thumb)
+        }
+    }
 
     //call /files/file/id/data to get the real data. verify the length
     let data = await dfetch(`${BASE}/files/file/${import_result.fileid}/data`).then(r => r.buffer())
@@ -76,17 +87,40 @@ async function run(json_path, id) {
     })
 }
 
-// run("./tests/remote.json",process.argv[2])
+let tests = [
+    /*
+    {
+        url: 'https://vr.josh.earth/assets/2dimages/saturnv.jpg',
+        size: 349792,
+        thumb: {
+            image: {
+                width: 256,
+                height: 204,
+                orientation:1,
+                type:'jpg',
+            }
+        }
+    },
+    {
+        url:"http://127.0.0.1:8080/pdfs/20reasons.pdf",
+        size:158397,
+    },
+     */
+    {
+        url:"http://127.0.0.1:8080/text/bretvictor.md",
+        size:36842,
+        thumb: {
+            text: {
+                start:'foo'
+            }
+        }
+    }
+]
 
-// run_test({
-//     url: 'https://vr.josh.earth/assets/2dimages/saturnv.jpg',
-//     size:349792,
-//     // url:"http://127.0.0.1:8080/pdfs/20reasons.pdf",
-//     // size:158397,
-// })
-run_test({
-    // url: 'https://vr.josh.earth/assets/2dimages/saturnv.jpg',
-    // size:349792,
-    url:"http://127.0.0.1:8080/pdfs/20reasons.pdf",
-    size:158397,
-})
+async function go() {
+    for (let test of tests) {
+        await run_test(test)
+    }
+}
+
+go().then("test is done");

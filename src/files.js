@@ -91,6 +91,19 @@ async function generate_pdf_thumbnail(data_path, thumbsdir) {
     }
 }
 
+async function generate_text_thumbnail(data_path, thumbsdir) {
+    log("generating thumbnail at",data_path, 'dir',thumbsdir)
+    let thumb_id = "thumb.txt"
+    let thumb_path = path.join(thumbsdir,thumb_id)
+    let text = 'dummy thumb'
+    await fs.promises.writeFile(thumb_path,text)
+    return {
+        path: thumb_path,
+        thumbid:thumb_id,
+
+    }
+}
+
 export async function import_file(url, FILES_DIR) {
     log("importing",url)
     let fileid = "file_"+Math.random().toString(16)
@@ -119,6 +132,12 @@ export async function import_file(url, FILES_DIR) {
         log("generating thumnail for pdf",info)
         let thumb_info = await generate_pdf_thumbnail(data_path,thumbsdir)
         info.pdf.thumbs = [thumb_info]
+    }
+    if(info.mime === 'text/markdown') {
+        log("generating thumbnail for text file",info)
+        let thumb_info = await generate_text_thumbnail(data_path,thumbsdir)
+        info.text = {}
+        info.text.thumbs = [thumb_info]
     }
 
 
@@ -166,8 +185,14 @@ export async function list_files(FILES_DIR) {
 export async function get_thumbs(fileid, thumbid, FILES_DIR, res) {
     log("getting thumb for ",fileid,'called',thumbid)
     let info = await get_file_info(fileid,FILES_DIR)
-    log("info is",info.image.thumbs)
-    let thumb_info = info.image.thumbs.find(th => th.thumbid === thumbid)
+    log("info is",info)
+    let thumb_info = null
+    if(info.image && info.image.thumbs) {
+        thumb_info = info.image.thumbs.find(th => th.thumbid === thumbid)
+    }
+    if(info.text && info.text.thumbs) {
+        thumb_info = info.text.thumbs.find(th => th.thumbid === thumbid)
+    }
     log("thumb info is",thumb_info)
     let abs = path.join(process.cwd(),thumb_info.path)
     log('abs path is',abs)
