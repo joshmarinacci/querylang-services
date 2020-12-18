@@ -77,7 +77,7 @@ async function generate_jpeg_thumbnail(data_path, thumbs_dir) {
 }
 
 async function generate_pdf_thumbnail(data_path, thumbsdir) {
-    log("generating thumbnail at",data_path, 'dir',thumbsdir)
+    log("generating pdf thumbnail at",data_path, 'dir',thumbsdir)
     let doc = await getDocument(data_path).promise
     let metadata = await doc.getMetadata()
     log('metadata is',metadata)
@@ -92,10 +92,12 @@ async function generate_pdf_thumbnail(data_path, thumbsdir) {
 }
 
 async function generate_text_thumbnail(data_path, thumbsdir) {
-    log("generating thumbnail at",data_path, 'dir',thumbsdir)
+    log("generating text thumbnail at",data_path, 'dir',thumbsdir)
     let thumb_id = "thumb.txt"
     let thumb_path = path.join(thumbsdir,thumb_id)
-    let text = 'dummy thumb'
+    let text = await fs.promises.readFile(data_path)
+    text = text.toString()
+    if(text.length > 500) text = text.substring(0,500)
     await fs.promises.writeFile(thumb_path,text)
     return {
         path: thumb_path,
@@ -133,7 +135,7 @@ export async function import_file(url, FILES_DIR) {
         let thumb_info = await generate_pdf_thumbnail(data_path,thumbsdir)
         info.pdf.thumbs = [thumb_info]
     }
-    if(info.mime === 'text/markdown') {
+    if(info.mime === 'text/markdown' || info.mime === 'application/javascript') {
         log("generating thumbnail for text file",info)
         let thumb_info = await generate_text_thumbnail(data_path,thumbsdir)
         info.text = {}

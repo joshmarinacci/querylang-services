@@ -15,7 +15,7 @@ import assert from 'assert'
 const BASE = "http://localhost:30011"
 
 async function dfetch(...args) {
-    console.log('fetch',...args)
+    // console.log('fetch',...args)
     return fetch(...args)
 }
 
@@ -29,11 +29,11 @@ async function run_test(tst) {
 
     //call /scan?url to get info
     let scan_info = await dfetch(`${BASE}/scan?url=${tst.url}`).then(r => r.json())
-    console.log("scan info is", scan_info)
+    // console.log("scan info is", scan_info)
     //call /files/import?url   get id and info. verify the same
-    console.log('importing at',BASE)
+    // console.log('importing at',BASE)
     let import_result = await dfetch(`${BASE}/files/import?url=${tst.url}`).then(r=>r.json())
-    console.log("import result is",inspect(import_result, {depth: 10}))
+    // console.log("import result is",inspect(import_result, {depth: 10}))
 
     strictEqual(scan_info.size,import_result.info.size)
     strictEqual(scan_info.mime,import_result.info.mime)
@@ -56,19 +56,20 @@ async function run_test(tst) {
     // //call /files/file/id/thumbs/thumb.256.jpg verify the size
     if(tst.thumb) {
         if(tst.thumb.image) {
-            console.log("checking image thumb")
+            // console.log("checking image thumb")
             let thumb = await fetch(`${BASE}/files/file/${import_result.fileid}/thumbs/thumb.256w.jpg`).then(r => r.buffer())
             // console.log("got thumb",thumb)
             // strictEqual(thumb.type,'image/jpeg')
-            let dim = sizeOf(thumb)
+            // let dim = sizeOf(thumb)
             // console.log("dims is",dim)
             deepStrictEqual(sizeOf(thumb),tst.thumb.image)
         }
         if(tst.thumb.text) {
-            console.log("checking text thumb")
+            // console.log("checking text thumb")
             assert(import_result.info.text.thumbs)
             let thumb = await fetch(`${BASE}/files/file/${import_result.fileid}/thumbs/thumb.txt`).then(r => r.text())
-            console.log("got thumb ",thumb)
+            // console.log("got thumb ",thumb,tst.thumb.text.start)
+            assert(thumb.startsWith(tst.thumb.text.start))
         }
     }
 
@@ -88,7 +89,6 @@ async function run(json_path, id) {
 }
 
 let tests = [
-    /*
     {
         url: 'https://vr.josh.earth/assets/2dimages/saturnv.jpg',
         size: 349792,
@@ -105,13 +105,21 @@ let tests = [
         url:"http://127.0.0.1:8080/pdfs/20reasons.pdf",
         size:158397,
     },
-     */
     {
         url:"http://127.0.0.1:8080/text/bretvictor.md",
         size:36842,
         thumb: {
             text: {
-                start:'foo'
+                start:'[TOC]'
+            }
+        }
+    },
+    {
+        url:"http://127.0.0.1:8080/text/rpneval.js",
+        size:784,
+        thumb: {
+            text: {
+                start:'const e'
             }
         }
     }

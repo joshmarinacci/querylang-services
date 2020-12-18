@@ -1,4 +1,5 @@
 import { spawn } from 'child_process'
+import fs from "fs"
 import path from 'path'
 
 async function doRun(cmd, args, cwd, title) {
@@ -23,9 +24,15 @@ function doWait(number) {
     return new Promise((res,rej)=> setTimeout(res,number))
 }
 
+async function nuke_and_rebuild(path) {
+    await (fs.promises.rm(path,{recursive:true}))
+    await fs.promises.mkdir(path)
+}
+
 async function go() {
+    await nuke_and_rebuild("storage")
     await doRun('http-server', ['.'], '../querylang-testdata','webserver')
-    await doWait(3000)
+    await doWait(8000)
     await doRun('npm',['start'],'.','server')
     await doWait(2000)
     await doRun('node',['tests/ingestremote.test.js'],'','test')
