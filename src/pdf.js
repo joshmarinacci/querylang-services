@@ -8,7 +8,7 @@ export async function render_page_to_png(filepath,outpath)
 
     let doc = await getDocument(filepath).promise
     let metadata = await doc.getMetadata()
-    console.log("metadata is",metadata)
+    // console.log("metadata is",metadata)
 
     let page = await doc.getPage(1)
     let content = await page.getTextContent()
@@ -17,12 +17,12 @@ export async function render_page_to_png(filepath,outpath)
     var strings = content.items.map(function (item) {
         return item.str;
     });
-    console.log("## Text Content");
+    // console.log("## Text Content");
     // console.log(strings.join("\n"));
     let text = strings.join("\n")
     if(text.length > 500)  text = text.substring(0,500)
     await fs.promises.writeFile(outpath,text)
-    console.log("done writing to ",outpath,text)
+    // console.log("done writing to ",outpath,text)
     return outpath
 
 

@@ -13,22 +13,35 @@ import {inspect} from 'util'
 
 const BASE = "http://localhost:30011"
 
+async function dfetch(...args) {
+    console.log('fetch',...args)
+    return fetch(...args)
+}
+
+async function doWait(number) {
+    console.log('waiting',number)
+    return new Promise((res,rej)=> setTimeout(res,number))
+}
+
 async function run_test(tst) {
     console.log("testing", tst)
 
     //call /scan?url to get info
-    let scan_info = await fetch(`${BASE}/scan?url=${tst.url}`).then(r => r.json())
+    let scan_info = await dfetch(`${BASE}/scan?url=${tst.url}`).then(r => r.json())
     console.log("scan info is", scan_info)
     //call /files/import?url   get id and info. verify the same
     console.log('importing at',BASE)
-    let import_result = await fetch(`${BASE}/files/import?url=${tst.url}`).then(r=>r.json())
+    let import_result = await dfetch(`${BASE}/files/import?url=${tst.url}`).then(r=>r.json())
     console.log("import result is",inspect(import_result, {depth: 10}))
 
     strictEqual(scan_info.size,import_result.info.size)
     strictEqual(scan_info.mime,import_result.info.mime)
 
     //call /files/file/id/info to get the info. verify the same
-    let info_result = await fetch(`${BASE}/files/file/${import_result.fileid}/info`).then(r => r.json())
+    await doWait(1000)
+    // console.log("gettting the info")
+    let info_result = await dfetch(`${BASE}/files/file/${import_result.fileid}/info`).then(r => r.json())
+    // console.log("info is",info_result)
     strictEqual(scan_info.size,info_result.size)
 
     //call /files/list  to get all files
@@ -49,7 +62,7 @@ async function run_test(tst) {
     */
 
     //call /files/file/id/data to get the real data. verify the length
-    let data = await fetch(`${BASE}/files/file/${import_result.fileid}/data`).then(r => r.buffer())
+    let data = await dfetch(`${BASE}/files/file/${import_result.fileid}/data`).then(r => r.buffer())
     // console.log("got data",data)
     strictEqual(data.length,tst.size)
     console.log("SUCCESS:",tst.url)

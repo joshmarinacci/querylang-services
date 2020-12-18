@@ -22,14 +22,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="make git ignore storage dir &#10;remove some debug output">
-      <change afterPath="$PROJECT_DIR$/src/pdf.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="7a646f54-ed02-42eb-920b-f40961552817" name="Default Changelist" comment="generate plain text thumbnails for pdfs from the first page&#10;make git ignore the storage dir">
+      <change afterPath="$PROJECT_DIR$/tests/run.automated.test.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/files.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/files.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/scan.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/scan.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pdf.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pdf.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/ingestremote.test.js" beforeDir="false" afterPath="$PROJECT_DIR$/tests/ingestremote.test.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -62,6 +59,8 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="14.4.0" />
+    <property name="javascript.nodejs.core.library.typings.version" value="14.14.14" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -110,7 +109,10 @@
       <workItem from="1607982727040" duration="1392000" />
       <workItem from="1608073941789" duration="4909000" />
       <workItem from="1608142472200" duration="6667000" />
-      <workItem from="1608155476673" duration="925000" />
+      <workItem from="1608155476673" duration="1688000" />
+      <workItem from="1608228155452" duration="139000" />
+      <workItem from="1608242237034" duration="108000" />
+      <workItem from="1608249997432" duration="3063000" />
     </task>
     <task id="LOCAL-00001" summary="fix imports&#10;add scanner stub">
       <created>1606229237172</created>
@@ -238,7 +240,14 @@
       <option name="project" value="LOCAL" />
       <updated>1608145820640</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="generate plain text thumbnails for pdfs from the first page&#10;make git ignore the storage dir">
+      <created>1608156646611</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1608156646611</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,6 +285,7 @@
     <MESSAGE value="add initial test for ingestion. doesn't work yet" />
     <MESSAGE value="work on file ingestion with unit tests" />
     <MESSAGE value="update remote ingestion test to parameterize the test info&#10;update import syntax in scan.js" />
-    <option name="LAST_COMMIT_MESSAGE" value="update remote ingestion test to parameterize the test info&#10;update import syntax in scan.js" />
+    <MESSAGE value="generate plain text thumbnails for pdfs from the first page&#10;make git ignore the storage dir" />
+    <option name="LAST_COMMIT_MESSAGE" value="generate plain text thumbnails for pdfs from the first page&#10;make git ignore the storage dir" />
   </component>
 </project>
